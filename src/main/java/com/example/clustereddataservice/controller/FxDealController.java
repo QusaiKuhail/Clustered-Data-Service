@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.clustereddataservice.entity.FxDeal;
 import com.example.clustereddataservice.exception.DealValidationException;
 import com.example.clustereddataservice.exception.DuplicateDealException;
+import com.example.clustereddataservice.exception.FieldTypeValidationException;
 import com.example.clustereddataservice.service.FxDealService;
+
+import jakarta.validation.Valid;
+
 
 @RestController
 public class FxDealController {
@@ -21,11 +26,11 @@ public class FxDealController {
 	private FxDealService fxDealService;
 
 	@PostMapping("/fxdeals")
-	public ResponseEntity<String> saveFxDeal(@RequestBody FxDeal fxDeal) {
+	public ResponseEntity<String> saveFxDeal(@Valid @RequestBody FxDeal fxDeal) {
 		try {
 			fxDealService.saveFxDeal(fxDeal);
 			return ResponseEntity.ok("FX deal saved successfully.");
-		} catch (DealValidationException | DuplicateDealException ex) {
+		} catch (DealValidationException | DuplicateDealException | FieldTypeValidationException ex) {
 			logger.error("Error while saving FX deal: {}", ex.getMessage());
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		} catch (Exception ex) {
