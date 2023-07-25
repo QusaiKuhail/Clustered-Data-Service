@@ -40,7 +40,7 @@ Clustered Data Service is a Spring Boot application that provides a RESTful API 
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/QusaiKuhail/Clustered-Data-Service.git
    ```
 
 2. Navigate to the project directory:
